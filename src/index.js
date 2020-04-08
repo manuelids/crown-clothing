@@ -8,6 +8,7 @@ import App from './App';
 //import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
+    /* Everything will be under the router */
     <BrowserRouter>
         <App/>
     </BrowserRouter>, 
