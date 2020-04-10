@@ -37,10 +37,7 @@ class App extends React.Component {
               ...snapshot.data() //snapshot data
             }
           });
-
-          console.log(this.state);
-        });
-
+        });        
       }
 
       //Current user will be the signed in user until we get it from the data store 
