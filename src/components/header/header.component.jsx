@@ -7,6 +7,8 @@ import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import './header.styles.scss'
 
+
+//current User comes from the HOC connected at the bottom
 const Header = ({ currentUser }) => (
     <div className="header">
         <Link className="logo-container" to="/">
@@ -28,6 +30,7 @@ const Header = ({ currentUser }) => (
     </div>
 );
 
+//State is the rootState from the root reducer that maps all the user-reducers
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser
 });
