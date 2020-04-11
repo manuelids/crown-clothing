@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './App.css';
 
@@ -8,19 +9,14 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: null
-    }
-  }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const {setCurrentUser} = this.props;
+  
     //Whenever an auth state is executed this delegate will be called
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //user is logged in
@@ -31,19 +27,15 @@ class App extends React.Component {
         //onSnapshot will trigger once we get the data queried
         userRef.onSnapshot(snapshot => {
           //set the state when we get the snapshot object
-          this.setState({
-            currentUser: { 
-              id: snapshot.id, //snapshot document id
-              ...snapshot.data() //snapshot data
-            }
+          setCurrentUser({ 
+            id: snapshot.id, //snapshot document id
+            ...snapshot.data() //snapshot data
           });
         });        
       }
 
       //Current user will be the signed in user until we get it from the data store 
-      this.setState({ currentUser: userAuth }, ()=> {
-        console.log(this.state)
-      }); 
+      setCurrentUser(userAuth); 
     });
   }
 
@@ -56,7 +48,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />        
+        <Header />        
         {/* Switch + Routes are holding the "view" */}
         <Switch>
           <Route exact path='/' component={HomePage} />
@@ -68,4 +60,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(App);
