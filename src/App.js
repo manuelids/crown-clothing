@@ -41,12 +41,15 @@ class App extends React.Component {
       }
 
       //Current user will be the signed in user until we get it from the data store 
-      this.setState({ currentUser: userAuth }); 
+      this.setState({ currentUser: userAuth }, ()=> {
+        console.log(this.state)
+      }); 
     });
   }
 
   componentWillUnmount() {
     console.log('componentWillUnmount');
+    //Unsubscribe from the auth
     this.unsubscribeFromAuth();
   }
 
