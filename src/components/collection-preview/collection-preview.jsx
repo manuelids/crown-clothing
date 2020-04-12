@@ -12,8 +12,8 @@ const CollectionPreview = ({title, items}) => (
                 //Any code inside a component gets executed on render or rerendered
                 items
                 .filter((item, idx)=> idx < 4)
-                .map(({ id, ...otherItemProps }) => (
-                    <CollectionItem key={id} {...otherItemProps} />
+                .map((item) => (
+                    <CollectionItem key={item.id} item={item} />
                 ))
             }
         </div>
